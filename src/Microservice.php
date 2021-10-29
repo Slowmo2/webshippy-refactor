@@ -4,37 +4,18 @@ namespace App;
 
 class Microservice
 {
-    public function run($stock): void
+    private OrderRepository $repository;
+
+    public function __construct(OrderRepository $repository)
     {
+        $this->repository = $repository;
+    }
 
-        //$orderFilter = new OrderFilter(new CSVReader());
-        //$orders = $orderFilter->filter('orders.csv');
+    public function run($stock, string $ordersSourceFile): void
+    {
+        $orders = $this->repository->getFromFile($ordersSourceFile);
 
-        $orders = [];
-        $ordersH = [];
-
-        $row = 1;
-        if (($handle = fopen('orders.csv', 'r')) !== false) {
-            while (($data = fgetcsv($handle)) !== false) {
-                if ($row == 1) {
-                    $ordersH = $data;
-                } else {
-                    $o = [];
-                    for ($i = 0; $i < count($ordersH); $i++) {
-                        $o[$ordersH[$i]] = $data[$i];
-                    }
-                    $orders[] = $o;
-                }
-                $row++;
-            }
-            fclose($handle);
-        }
-
-        usort($orders, function ($a, $b) {
-            $pc = -1 * ($a['priority'] <=> $b['priority']);
-            return $pc == 0 ? $a['created_at'] <=> $b['created_at'] : $pc;
-        });
-
+        return; // The rest of the code below expects other kind of data - this will be dealt with soon
         foreach ($ordersH as $h) {
             echo str_pad($h, 20);
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Sort;
 
 use App\Model\Order;
 

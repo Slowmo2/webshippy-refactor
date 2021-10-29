@@ -2,8 +2,6 @@
 
 namespace App\Model;
 
-use http\Exception\InvalidArgumentException;
-
 class Order
 {
     private const PRIORITY_LOW = 'low';
@@ -15,6 +13,11 @@ class Order
         2 => self::PRIORITY_MEDIUM,
     ];
 
+    private const COL_PRODUCT_ID = 'product_id';
+    private const COL_QUANTITY = 'quantity';
+    private const COL_PRIORITY = 'priority';
+    private const COL_CREATED_AT = 'created_at';
+
     private int $productId;
     private int $quantity;
     private int $priority;
@@ -23,19 +26,19 @@ class Order
     public static function createFromArray(array $data): self
     {
         if (
-            !array_key_exists('productId', $data) ||
-            !array_key_exists('quantity', $data) ||
-            !array_key_exists('priority', $data) ||
-            !array_key_exists('createdAt', $data)
+            !array_key_exists(self::COL_PRODUCT_ID, $data) ||
+            !array_key_exists(self::COL_QUANTITY, $data) ||
+            !array_key_exists(self::COL_PRIORITY, $data) ||
+            !array_key_exists(self::COL_CREATED_AT, $data)
         ) {
-            throw new InvalidArgumentException('Malformed order data!');
+            throw new \Exception('Malformed order data!');
         }
 
         $order = new self();
-        $order->productId = $data['productId'];
-        $order->quantity = $data['quantity'];
-        $order->priority = $data['priority'];
-        $order->createdAt = new \DateTime($data['createdAt']);
+        $order->productId = $data[self::COL_PRODUCT_ID];
+        $order->quantity = $data[self::COL_QUANTITY];
+        $order->priority = $data[self::COL_PRIORITY];
+        $order->createdAt = new \DateTime($data[self::COL_CREATED_AT]);
 
         return $order;
     }

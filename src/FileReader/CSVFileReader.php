@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\FileReader;
 
-final class CSVReader implements FileReaderInterface
+final class CSVFileReader implements FileReaderInterface
 {
     public function read(string $fileName): array
     {
