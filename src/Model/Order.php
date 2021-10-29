@@ -11,8 +11,8 @@ class Order
     private const PRIORITY_HIGH = 'high';
 
     private const PRIORITIES = [
-        0 => self::PRIORITY_LOW,
-        1 => self::PRIORITY_MEDIUM,
+        1 => self::PRIORITY_LOW,
+        2 => self::PRIORITY_MEDIUM,
     ];
 
     private int $productId;
@@ -57,11 +57,7 @@ class Order
 
     public function getPriorityText(): string
     {
-        if (\array_key_exists($this->priority, self::PRIORITIES)) {
-            return self::PRIORITIES[$this->priority];
-        }
-
-        return self::PRIORITY_HIGH;
+        return self::PRIORITIES[$this->priority] ?? self::PRIORITY_HIGH;
     }
 
     public function getCreatedAt(): \DateTime
