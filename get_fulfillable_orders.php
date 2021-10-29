@@ -1,12 +1,14 @@
 <?php
 
-if ($argc != 2) {
-    echo 'Ambiguous number of parameters!';
-    exit(1);
-}
+use App\Command\Command;
 
-if (($stock = json_decode($argv[1])) == null) {
-    echo 'Invalid json!';
+require_once './src/Command/Command.php';
+
+try {
+    $command = new Command(2);
+    $stock = $command->getJsonParameter(1);
+} catch (\Exception $exception) {
+    echo $exception->getMessage();
     exit(1);
 }
 
