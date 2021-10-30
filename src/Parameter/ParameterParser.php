@@ -1,4 +1,10 @@
 <?php
+/*
+ * Webshippy refactor exercise
+ * Author: Máté Dusik
+ */
+
+declare(strict_types=1);
 
 namespace App\Parameter;
 
@@ -12,6 +18,7 @@ final class ParameterParser
 
     /**
      * @param string[] $parameterTypes
+     * @throws \Exception
      */
     public function __construct(array $parameterTypes = [])
     {
@@ -25,25 +32,32 @@ final class ParameterParser
         $this->parseParameters($parameterTypes);
     }
 
+    /**
+     * @throws \Exception
+     */
     private function parseParameters(array $parameterTypes): void
     {
         foreach ($parameterTypes as $i => $type) {
             switch ($type) {
                 case self::TYPE_JSON:
                     $this->parsedParameters[] = $this->parseJsonParameter($i + 1);
+                    break;
                 default:
                     $this->parsedParameters[] = $this->parameters[$i + 1] ?? null;
             }
         }
     }
 
+    /**
+     * @throws \Exception
+     */
     private function parseJsonParameter(int $index)
     {
         if (!isset($this->parameters[$index])) {
             throw new \Exception(\sprintf('Parameter with the index of %d not found!', $index));
         }
 
-        if (($parameter = \json_decode($this->parameters[$index])) === null) {
+        if (($parameter = \json_decode($this->parameters[$index], true)) === null) {
             throw new \LogicException('Invalid json!');
         }
 

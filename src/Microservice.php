@@ -1,49 +1,41 @@
 <?php
+/*
+ * Webshippy refactor exercise
+ * Author: Máté Dusik
+ */
+
+declare(strict_types=1);
 
 namespace App;
+
+use App\Model\Order;
+use App\Writer\WriterInterface;
 
 class Microservice
 {
     private OrderRepository $repository;
+    private WriterInterface $writer;
 
-    public function __construct(OrderRepository $repository)
+    public function __construct(OrderRepository $repository, WriterInterface $writer)
     {
         $this->repository = $repository;
+        $this->writer = $writer;
     }
 
-    public function run($stock, string $ordersSourceFile): void
+    /**
+     * @throws \Exception
+     */
+    public function run(array $stock, string $ordersSourceFile): void
     {
         $orders = $this->repository->getFromFile($ordersSourceFile);
+        $ordersToWrite = $this->filterOrders($stock, $orders);
+        $this->writer->writeItems($ordersToWrite);
+    }
 
-        return; // The rest of the code below expects other kind of data - this will be dealt with soon
-        foreach ($ordersH as $h) {
-            echo str_pad($h, 20);
-        }
-        echo "\n";
-        foreach ($ordersH as $h) {
-            echo str_repeat('=', 20);
-        }
-        echo "\n";
-        foreach ($orders as $item) {
-            if ($stock->{$item['product_id']} >= $item['quantity']) {
-                foreach ($ordersH as $h) {
-                    if ($h == 'priority') {
-                        if ($item['priority'] == 1) {
-                            $text = 'low';
-                        } else {
-                            if ($item['priority'] == 2) {
-                                $text = 'medium';
-                            } else {
-                                $text = 'high';
-                            }
-                        }
-                        echo str_pad($text, 20);
-                    } else {
-                        echo str_pad($item[$h], 20);
-                    }
-                }
-                echo "\n";
-            }
-        }
+    private function filterOrders(array $stock, array $orders): array
+    {
+        return \array_filter($orders, function (Order $order) use ($stock) {
+            return  $stock[$order->getProductId()] >= $order->getQuantity();
+        });
     }
 }

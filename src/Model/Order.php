@@ -1,8 +1,16 @@
 <?php
+/*
+ * Webshippy refactor exercise
+ * Author: Máté Dusik
+ */
+
+declare(strict_types=1);
 
 namespace App\Model;
 
-class Order
+use App\Writer\WritableInterface;
+
+class Order implements WritableInterface
 {
     private const PRIORITY_LOW = 'low';
     private const PRIORITY_MEDIUM = 'medium';
@@ -35,9 +43,9 @@ class Order
         }
 
         $order = new self();
-        $order->productId = $data[self::COL_PRODUCT_ID];
-        $order->quantity = $data[self::COL_QUANTITY];
-        $order->priority = $data[self::COL_PRIORITY];
+        $order->productId = (int)$data[self::COL_PRODUCT_ID];
+        $order->quantity = (int)$data[self::COL_QUANTITY];
+        $order->priority = (int)$data[self::COL_PRIORITY];
         $order->createdAt = new \DateTime($data[self::COL_CREATED_AT]);
 
         return $order;
@@ -66,5 +74,18 @@ class Order
     public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
+    }
+
+    public function getLine(): array
+    {
+        return [$this->productId, $this->quantity, $this->getPriorityText(), $this->createdAt->format('Y-m-d H:i:s')];
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getHeader(): array
+    {
+        return [self::COL_PRODUCT_ID, self::COL_QUANTITY, self::COL_PRIORITY, self::COL_CREATED_AT];
     }
 }

@@ -1,4 +1,10 @@
 <?php
+/*
+ * Webshippy refactor exercise
+ * Author: Máté Dusik
+ */
+
+declare(strict_types=1);
 
 namespace App;
 
@@ -19,6 +25,7 @@ class OrderRepository
 
     /**
      * @throws \Exception
+     * @return Order[]
      */
     public function getFromFile(string $sourceFileName): array
     {

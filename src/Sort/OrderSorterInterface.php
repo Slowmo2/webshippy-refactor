@@ -1,4 +1,10 @@
 <?php
+/*
+ * Webshippy refactor exercise
+ * Author: Máté Dusik
+ */
+
+declare(strict_types=1);
 
 namespace App\Sort;
 
