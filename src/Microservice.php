@@ -9,14 +9,15 @@ declare(strict_types=1);
 namespace App;
 
 use App\Model\Order;
+use App\Repository\OrderRepositoryInterface;
 use App\Writer\WriterInterface;
 
-class Microservice
+final class Microservice
 {
-    private OrderRepository $repository;
+    private OrderRepositoryInterface $repository;
     private WriterInterface $writer;
 
-    public function __construct(OrderRepository $repository, WriterInterface $writer)
+    public function __construct(OrderRepositoryInterface $repository, WriterInterface $writer)
     {
         $this->repository = $repository;
         $this->writer = $writer;
@@ -25,9 +26,9 @@ class Microservice
     /**
      * @throws \Exception
      */
-    public function run(array $stock, string $ordersSourceFile): void
+    public function run(array $stock): void
     {
-        $orders = $this->repository->getFromFile($ordersSourceFile);
+        $orders = $this->repository->getOrders();
         $ordersToWrite = $this->filterOrders($stock, $orders);
         $this->writer->writeItems($ordersToWrite);
     }

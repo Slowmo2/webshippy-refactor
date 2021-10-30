@@ -6,32 +6,18 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Repository;
 
-use App\FileReader\FileReaderInterface;
 use App\Model\Order;
 use App\Sort\OrderSorterInterface;
 
-class OrderRepository
+abstract class AbstractOrderRepository implements OrderRepositoryInterface
 {
-    private FileReaderInterface $fileReader;
     private ?OrderSorterInterface $sorter;
 
-    public function __construct(FileReaderInterface $fileReader, ?OrderSorterInterface $sorter = null)
+    public function __construct(?OrderSorterInterface $sorter)
     {
-        $this->fileReader = $fileReader;
         $this->sorter = $sorter;
-    }
-
-    /**
-     * @throws \Exception
-     * @return Order[]
-     */
-    public function getFromFile(string $sourceFileName): array
-    {
-        $orderData = $this->fileReader->read($sourceFileName);
-
-        return $this->sort($this->transform($orderData));
     }
 
     /**
@@ -39,7 +25,7 @@ class OrderRepository
      * @return Order[]
      * @throws \Exception
      */
-    private function transform(array $orderData): array
+    protected function transform(array $orderData): array
     {
         $orders = [];
 
@@ -50,7 +36,11 @@ class OrderRepository
         return $orders;
     }
 
-    private function sort(array $orders): array
+    /**
+     * @param Order[] $orders
+     * @return Order[]
+     */
+    protected function sort(array $orders): array
     {
         if ($sorter = $this->sorter) {
             \usort($orders, function (Order $a, Order $b) use ($sorter) {
