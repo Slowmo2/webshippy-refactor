@@ -1,6 +1,12 @@
 <?php
+/*
+ * Webshippy refactor exercise
+ * Author: Máté Dusik
+ */
 
 declare(strict_types=1);
+
+namespace Tests\Model;
 
 require __DIR__.'/../../autoload.php';
 
@@ -61,7 +67,7 @@ class OrderTest extends TestCase
      * @covers \App\Model\Order::getPriorityText
      * @covers \App\Model\Order::getLine
      */
-    public function testCreateFromArray()
+    public function testCreateFromArray(): void
     {
         $want = self::VALID_TEST_ARRAY;
 
@@ -92,11 +98,11 @@ class OrderTest extends TestCase
     /**
      * @covers \App\Model\Order::createFromArray
      */
-    public function testInvalidDataForCreateFromArray()
+    public function testInvalidDataForCreateFromArray(): void
     {
         foreach (self::INVALID_TEST_DATA as $invalidTestData) {
             try {
-                $orderObject = Order::createFromArray($invalidTestData);
+                Order::createFromArray($invalidTestData);
             } catch (\Exception $exception) {
                 $this->assertEquals('Malformed order data!', $exception->getMessage());
                 continue;
@@ -106,7 +112,10 @@ class OrderTest extends TestCase
         }
     }
 
-    public function testPriorityText()
+    /**
+     * @covers \App\Model\Order::createFromArray
+     */
+    public function testPriorityText(): void
     {
         $want = self::VALID_TEST_ARRAY;
 

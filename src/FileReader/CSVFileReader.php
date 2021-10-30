@@ -14,7 +14,7 @@ final class CSVFileReader implements FileReaderInterface
     {
         $handle = \fopen($fileName, 'r');
         if ($handle === false) {
-            return [];
+            return []; // On failure fopen usually emits a warning
         }
 
         $data = [];

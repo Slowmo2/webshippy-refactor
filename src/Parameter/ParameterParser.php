@@ -51,7 +51,7 @@ final class ParameterParser
     private function parseJsonParameter(int $index)
     {
         if (!isset($this->parameters[$index])) {
-            throw new \Exception(\sprintf('Parameter with the index of %d not found!', $index));
+            throw new \Exception(\sprintf('Parameter with the index of %d not found!', $index)); // Can't reach this from the current use-case
         }
 
         if (($parameter = \json_decode($this->parameters[$index], true)) === null) {
