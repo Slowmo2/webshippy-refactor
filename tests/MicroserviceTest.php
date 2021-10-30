@@ -17,9 +17,6 @@ use PHPUnit\Framework\TestCase;
 
 require __DIR__.'/../autoload.php';
 
-// Note: I wouldn't really call this a unit test, however what this tests is basically the use of all the things that
-//       has already been tested. Also, I was given two inputs with two outputs as an example, why not include it in a test?
-
 /**
  * @covers \App\Microservice
  * @covers \App\Repository\AbstractOrderRepository
