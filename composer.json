@@ -1,0 +1,15 @@
+{
+    "name": "matt/webshippy",
+    "authors": [
+        {
+            "name": "Máté Dusik",
+            "email": "dusikmate@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
+}
