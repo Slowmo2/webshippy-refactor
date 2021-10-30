@@ -38,13 +38,10 @@ final class ParameterParser
     private function parseParameters(array $parameterTypes): void
     {
         foreach ($parameterTypes as $i => $type) {
-            switch ($type) {
-                case self::TYPE_JSON:
-                    $this->parsedParameters[] = $this->parseJsonParameter($i + 1);
-                    break;
-                default:
-                    $this->parsedParameters[] = $this->parameters[$i + 1] ?? null;
-            }
+            $this->parsedParameters[] = match ($type) {
+                self::TYPE_JSON => $this->parseJsonParameter($i + 1),
+                default => $this->parameters[$i + 1] ?? null,
+            };
         }
     }
 
