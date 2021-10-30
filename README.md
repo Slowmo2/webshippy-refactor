@@ -46,3 +46,19 @@ product_id          quantity            priority            created_at
 2                   2                   low                 2021-03-24 11:02:06 
 1                   1                   low                 2021-03-25 19:08:22 
 ```
+
+Solution
+========
+
+Tests
+-----
+For the unit tests I downloaded PHPUnit through Composer so if you don't have
+it installed, run the following command:
+```
+composer install
+```
+
+I have used the following command to run the tests and to generate a test coverage (which I have included in the repository):
+```
+XDEBUG_MODE=coverage ./vendor/bin/phpunit ./tests --coverage-html coverage.html
+```
