@@ -1,5 +1,7 @@
 {
     "name": "matt/webshippy",
+    "description": "A small Webshippy refactor exercise",
+    "license": "proprietary",
     "authors": [
         {
             "name": "Máté Dusik",
