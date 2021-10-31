@@ -32,4 +32,5 @@ jobs:
     needs: build
     steps:
       - name: Run test suite
+        uses: actions/cache@v2
         run: composer run-script test
