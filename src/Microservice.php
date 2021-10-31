@@ -36,7 +36,7 @@ final class Microservice
     private function filterOrders(array $stock, array $orders): array
     {
         return \array_filter($orders, function (Order $order) use ($stock) {
-            return  $stock[$order->getProductId()] >= $order->getQuantity();
+            return $stock[$order->getProductId()] >= $order->getQuantity();
         });
     }
 }

@@ -31,6 +31,9 @@ class Order implements WritableInterface
     private int $priority;
     private \DateTime $createdAt;
 
+    /**
+     * @throws \Exception
+     */
     public static function createFromArray(array $data): self
     {
         if (
